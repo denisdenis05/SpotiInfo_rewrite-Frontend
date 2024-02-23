@@ -5,7 +5,7 @@ export default function App() {
   let isLoggedIn = false;
 
   if(isLoggedIn == true) {
-      return MainScreen();
+      return MainScreen()
   }
   else{
     return LoginScreen();
