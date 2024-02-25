@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "SpotiInfo_rewrite",
+    "scheme": "spotiinforewrite",
     "slug": "SpotiInfo_rewrite",
     "version": "1.0.0",
     "orientation": "portrait",
