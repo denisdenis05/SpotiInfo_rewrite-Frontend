@@ -16,9 +16,11 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.spotiinfo",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.spotiinfo",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -26,6 +28,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "403d5d51-4747-486c-8216-35fa3a7d46b1"
+      }
     }
   }
 }
