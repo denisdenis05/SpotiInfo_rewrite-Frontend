@@ -25,7 +25,7 @@ export async function sendGetRequest(link) {
             method: "GET",
             headers: {'Content-type': 'application/json'}
         };
-
+        console.log(link)
         const response = await fetch(link, requestOptions);
         const retrievedData = await response.json();
         return retrievedData;

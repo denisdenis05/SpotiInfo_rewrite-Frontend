@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "SpotiInfo_rewrite",
-    "scheme": "spotiinforewrite",
+    "scheme": "exp",
     "slug": "SpotiInfo_rewrite",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -33,6 +33,20 @@
       "eas": {
         "projectId": "403d5d51-4747-486c-8216-35fa3a7d46b1"
       }
-    }
+    },
+    "intentFilters": [
+      {
+        "action": "VIEW",
+        "autoVerify": true,
+        "data": [
+          {
+            "scheme": "exp",
+            "host": "192.168.196.50:8081",
+            "pathPrefix": "/--/"
+          }
+        ],
+        "category": ["BROWSABLE", "DEFAULT"]
+      }
+    ]
   }
 }
