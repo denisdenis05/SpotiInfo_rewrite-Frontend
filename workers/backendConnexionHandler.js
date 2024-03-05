@@ -1,7 +1,8 @@
-import {sendGetRequest} from "./requests";
+import {sendGetRequest, sendPostRequest} from "./requests";
 
 
-const backendIp = "http://192.168.1.130:8080";
+const backendIp = "http://192.168.1.129:8080";
+export const redirectUrl = "exp://192.168.1.129:8081/--/";
 
 export function checkIfUserIsLoggedIn(setLoggedIn, setUsername) {
     let linkToRequest =  backendIp + "/checkIfLoggedIn";
@@ -27,5 +28,15 @@ export async function getAuthorizationURI() {
 export async function getNonSensitiveInformation() {
     let linkToRequest = backendIp + "/getNonSensitiveInformation";
     const response = await sendGetRequest(linkToRequest);
+    return response;
+}
+
+export async function sendAuthorizationCode(authorizationCode){
+    let linkToRequest = backendIp + "/setAuthorizationKey";
+    console.log("hi");
+    let content = {"isLoggedIn": false, "identificator": authorizationCode};
+    console.log("hi2");
+    const response = await sendPostRequest(content, linkToRequest);
+    console.log("hi3");
     return response;
 }

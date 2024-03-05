@@ -4,29 +4,7 @@ import {getAuthorizationURI, getNonSensitiveInformation} from "../workers/backen
 import {registerUrlHandler} from "../workers/handleUrlRedirects";
 import {useEffect, useState} from "react";
 import LoadingScreen from "./loadingScreen";
-function LoginScreen(setLoggedIn) {
-
-    let [credentials, setCredentials] = useState({clientId: "placeholder", scopes: ["placeholder"], redirectUri: "placeholder://callback"})
-
-    const discovery = {
-        authorizationEndpoint: 'https://accounts.spotify.com/authorize',
-        tokenEndpoint: 'https://accounts.spotify.com/api/token',
-    };
-    const [request, response, promptAsync] = useAuthRequest(
-        {
-            clientId: credentials.clientId,
-            scopes: credentials.scopes,
-            redirectUri: credentials.redirectUri,
-        },
-        discovery
-    );
-
-    useEffect(() => {
-        if (response?.type === 'success') {
-            const { access_token } = response.params;
-            console.log(access_token);
-        }
-    }, [response])
+function LoginScreen(setLoggedIn, credentials, setCredentials, promptAsync) {
 
 
 
