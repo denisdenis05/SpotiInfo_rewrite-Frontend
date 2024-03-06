@@ -3,29 +3,33 @@ import LoginScreen from "./Screens/loginScreen";
 import {useEffect, useState} from "react";
 import {
   checkIfUserIsLoggedIn,
-  getNonSensitiveInformation,
   redirectUrl,
   sendAuthorizationCode
 } from "./workers/backendConnexionHandler";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import LoadingScreen from "./Screens/loadingScreen";
 import {Linking} from "react-native";
 import {useAuthRequest} from "expo-auth-session";
 
 export default function App() {
   let [isLoggedIn, setLoggedIn] = useState(false)
   let [username, setUsername] = useState("placeholder")
-  let [AuthorizationURI, setURILink] = useState("placeholder")
   let eventListener = null;
   let [credentials, setCredentials] = useState({clientId: "placeholder", scopes: ["placeholder"], redirectUri: "placeholder://callback"})
+  let [dummyForReRender, reRender] = useState(false);
 
 
   useEffect(() => {
     const handleDeepLink = ({ url }) => {
       if (url.startsWith(redirectUrl)) {
-        let authorizationCode = url.replace(redirectUrl+"?code=", "");
+        console.log(url);
+        let parameters = new URLSearchParams(url.split('?')[1]);
+
+        let authorizationCode = parameters.get('code');
+        console.log(authorizationCode);
+        let state = parameters.get('state');
+        console.log(state);
+
         sendAuthorizationCode(authorizationCode)
-            .then(()=>{Linking.reload();})
+            .then(()=>{reRender(true)})
             .catch();
       }
     };

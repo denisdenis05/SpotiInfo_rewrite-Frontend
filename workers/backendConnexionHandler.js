@@ -1,8 +1,8 @@
 import {sendGetRequest, sendPostRequest} from "./requests";
 
 
-const backendIp = "http://192.168.1.129:8080";
-export const redirectUrl = "exp://192.168.1.129:8081/--/";
+const backendIp = "http://192.168.217.50:8080";
+export const redirectUrl = "exp://192.168.217.50:8081/--/";
 
 export function checkIfUserIsLoggedIn(setLoggedIn, setUsername) {
     let linkToRequest =  backendIp + "/checkIfLoggedIn";
@@ -12,6 +12,7 @@ export function checkIfUserIsLoggedIn(setLoggedIn, setUsername) {
                 setLoggedIn(true);
                 const username = response.username;
                 setUsername(username);
+                console.log(username)
             }
         })
         .catch(error => {

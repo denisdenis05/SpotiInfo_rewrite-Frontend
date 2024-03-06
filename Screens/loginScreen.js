@@ -1,8 +1,5 @@
 import {Text, View, Image, TouchableOpacity, Linking, AppState} from 'react-native';
-import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import {getAuthorizationURI, getNonSensitiveInformation} from "../workers/backendConnexionHandler";
-import {registerUrlHandler} from "../workers/handleUrlRedirects";
-import {useEffect, useState} from "react";
 import LoadingScreen from "./loadingScreen";
 function LoginScreen(setLoggedIn, credentials, setCredentials, promptAsync) {
 
@@ -21,11 +18,16 @@ function LoginScreen(setLoggedIn, credentials, setCredentials, promptAsync) {
     }
 
     const logIn = async () => {
-        try {
-            await promptAsync(); // Initiate the authorization process
-        } catch (error) {
-            console.error("Authorization error:", error); // Log any authorization errors
-        }
+        let AuthorizationURI = await getAuthorizationURI();
+        console.log(AuthorizationURI)
+        const openUrlInBrowser = (url) => {
+            Linking.openURL(url)
+                .then(()=>{
+                    console.log("opened url")
+                })
+                .catch((err) => console.error('An error occurred', err));
+        };
+        openUrlInBrowser(AuthorizationURI);
     };
 
 
