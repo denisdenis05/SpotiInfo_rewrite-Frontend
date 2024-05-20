@@ -1,65 +1,49 @@
-import MainScreen from "./Screens/mainScreen";
-import LoginScreen from "./Screens/loginScreen";
-import {useEffect, useState} from "react";
+import React, { useEffect, useState } from 'react';
+import { Linking } from 'react-native';
+import MainScreen from './Screens/mainScreen';
+import LoginScreen from './Screens/loginScreen';
 import {
   checkIfUserIsLoggedIn,
   redirectUrl,
-  sendAuthorizationCode
-} from "./workers/backendConnexionHandler";
-import {Linking} from "react-native";
-import {useAuthRequest} from "expo-auth-session";
+  sendAuthorizationCode,
+} from './workers/backendConnexionHandler';
 
 export default function App() {
-  let [isLoggedIn, setLoggedIn] = useState(false)
-  let [username, setUsername] = useState("placeholder")
-  let eventListener = null;
-  let [credentials, setCredentials] = useState({clientId: "placeholder", scopes: ["placeholder"], redirectUri: "placeholder://callback"})
-  let [dummyForReRender, reRender] = useState(false);
-
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState('placeholder');
+  const [dummyForReRender, reRender] = useState(false);
 
   useEffect(() => {
     const handleDeepLink = ({ url }) => {
       if (url.startsWith(redirectUrl)) {
         console.log(url);
-        let parameters = new URLSearchParams(url.split('?')[1]);
-
-        let authorizationCode = parameters.get('code');
+        const parameters = new URLSearchParams(url.split('?')[1]);
+        const authorizationCode = parameters.get('code');
         console.log(authorizationCode);
-        let state = parameters.get('state');
+        const state = parameters.get('state');
         console.log(state);
 
         sendAuthorizationCode(authorizationCode)
-            .then(()=>{reRender(true)})
-            .catch();
+            .then(() => {
+              reRender(true);
+            })
+            .catch((error) => {
+              console.error('Error sending authorization code:', error);
+            });
       }
     };
 
-    Linking.addEventListener('url', handleDeepLink);
+    const eventListener = Linking.addEventListener('url', handleDeepLink);
+    checkIfUserIsLoggedIn(setLoggedIn, setUsername);
+
     return () => {
       eventListener.remove();
     };
   }, []);
 
-  const discovery = {
-    authorizationEndpoint: 'https://accounts.spotify.com/authorize',
-    tokenEndpoint: 'https://accounts.spotify.com/api/token',
-  };
-  const [request, response, promptAsync] = useAuthRequest(
-      {
-        clientId: credentials.clientId,
-        scopes: credentials.scopes,
-        redirectUri: credentials.redirectUri,
-      },
-      discovery
-  );
-
-  checkIfUserIsLoggedIn(setLoggedIn, setUsername);
-
-
-  if(isLoggedIn == true) {
-      return MainScreen(setLoggedIn)
-  }
-  else{
-        return LoginScreen(setLoggedIn, credentials, setCredentials, promptAsync);
+  if (isLoggedIn) {
+    return <MainScreen setLoggedIn={setLoggedIn} />;
+  } else {
+    return <LoginScreen setLoggedIn={setLoggedIn} />;
   }
 }

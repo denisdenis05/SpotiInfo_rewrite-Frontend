@@ -1,22 +1,7 @@
 import {Text, View, Image, TouchableOpacity, Linking, AppState} from 'react-native';
 import {getAuthorizationURI, getNonSensitiveInformation} from "../workers/backendConnexionHandler";
 import LoadingScreen from "./loadingScreen";
-function LoginScreen(setLoggedIn, credentials, setCredentials, promptAsync) {
-
-
-
-
-    async function getCredentials() {
-        let localCredentials = await getNonSensitiveInformation();
-        console.log(localCredentials);
-        setCredentials(localCredentials);
-    }
-
-    if (credentials.clientId === "placeholder"){
-        getCredentials();
-        return LoadingScreen();
-    }
-
+function LoginScreen(setLoggedIn) {
     const logIn = async () => {
         let AuthorizationURI = await getAuthorizationURI();
         console.log(AuthorizationURI)
@@ -31,7 +16,6 @@ function LoginScreen(setLoggedIn, credentials, setCredentials, promptAsync) {
     };
 
 
-    console.log(credentials);
     return (
         <View className="h-lvh w-full flex-1 items-center bg-black">
             <Text className="text-white font-bold text-3xl mt-32 mb-32">SpotiInfo</Text>
